@@ -15,25 +15,67 @@ class Shader {
 	private:
 		unsigned int shader_id; // Shader program id
 
+		/**
+		 * Reports a shader error for a shader object with id shader_object.
+		 * 
+		 * @param GLuint shader_object: id of shader object
+		 * @param std::string type: type of the shader object. (i.e. program, fragment shader, etc.)
+		 */
 		void shader_error(GLuint shader_object, std::string type);
 
+		/**
+		 * Compiles a shader.
+		 * 
+		 * @param const char *shader_source: path to glsl file of shader
+		 * @param GLenum shader_type: type of the shader, defined by a GLenum
+		 * @param unsigned int &shader: shader id to set
+		 * 
+		 * @return int: GL_TRUE if compile success, GL_FALSE otherwise
+		 */
 		int compile(const char *shader_source, GLenum shader_type, unsigned int &shader);
-		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program);
-	public:
-		Shader(const char *vertex_path, const char *fragment_path); // Constructor
 
+		/**
+		 * Links a vertex & fragment shader into a program. Will also set shader_id.
+		 * 
+		 * @param const unsigned int vertex_shader: vertex shader id
+		 * @param const unsigned int frag_shader: fragment shader id
+		 * @param unsigned int &shader_program: shader program id to set
+		 * 
+		 * @return int: GL_TRUE if compile success, GL_FALSE otherwise
+		 */
+		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program);
+
+	public:
+		/**
+		 * Shader constrctor.
+		 * @param const char *vertex_path: Path to a glsl file for vertex shader.
+		 * @param const char *fragment_path: Path to a glsl file for fragment shader.
+		 */
+		Shader(const char *vertex_path, const char *fragment_path); // Constructor
+		
+		/**
+		 * Activates a shader. Remember to set uniforms!
+		 */
 		Shader &use(); // Used to activate shader
 
+		/**
+		 * Gets this shader program's id.
+		 */
 		unsigned int get_shader_id();
 
 		// Utilities: setters for uniforms
 		// NOTE: const functions can only be called by an object that's been declared const
+		
 		void set_bool(const std::string & name, bool value) const;
 		void set_int(const std::string & name, int value) const;
 		void set_float(const std::string & name, float value) const;
 
 		/**
-		 * Sets a 4x4 transformation matrix. Recall that glm/glsl is column major: THIS WILL NOT TRANSPOSE
+		 * Sets a 4x4 transformation matrix.
+		 * NOTE: glm is column major; you may need to transpose your matrix!
+		 * 
+		 * @param std::string name: name of uniform
+		 * @param glm::mat4 value: value of uniform
 		 */
 		void set_mat4(const std::string & name, glm::mat4 value) const;
 

@@ -1,7 +1,7 @@
 #include "Shader.hpp"
 
 
-Shader::Shader(const char *vertex_path, const char *fragment_path) {
+Shader::Shader(const char *vertex_path, const char *fragment_path, const char *geometry_path) {
 	std::string vertex_code, fragment_code;
 	std::ifstream vshader_file, fshader_file;
 
@@ -42,7 +42,32 @@ Shader::Shader(const char *vertex_path, const char *fragment_path) {
 	if (!success) shader_error(vertex_shader, "FRAGMENT_SHADER");
 
 	unsigned int shader_program;
-	success = link(vertex_shader, fragment_shader, shader_program);
+
+	unsigned int geometry_shader;
+	// Geometry shader section
+	if (geometry_path != nullptr) {
+		std::string geometry_code;
+		std::ifstream geometry_file;
+		geometry_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		try {
+			geometry_file.open(geometry_path);
+			std::stringstream geometry_stream;
+			geometry_file.close();
+			geometry_code = geometry_stream.str();
+		} catch(std::ifstream::failure e) {
+			std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+			exit(EXIT_FAILURE);
+		}
+		const char *gshader_code = geometry_code.c_str();
+		
+		success = compile(gshader_code, GL_GEOMETRY_SHADER, geometry_shader);
+		if (!success) shader_error(vertex_shader, "GEOMETRY_SHADER");
+	}
+
+
+	success = geometry_path == nullptr ? link(vertex_shader, fragment_shader, shader_program) :
+				link(vertex_shader, fragment_shader, shader_program, geometry_shader);
+
 	if (!success) shader_error(vertex_shader, "PROGRAM");
 
 	glDeleteShader(fragment_shader);
@@ -68,10 +93,11 @@ int Shader::compile(const char *shader_source, GLenum shader_type, unsigned int 
 }
 
 
-int Shader::link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program) {
+int Shader::link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program, const unsigned int geom_shader) {
 	shader_program = glCreateProgram();
 	glAttachShader(shader_program, vertex_shader);
 	glAttachShader(shader_program, frag_shader);
+	if (geom_shader != 0) glAttachShader(shader_program, geom_shader);
 	glLinkProgram(shader_program);
 
 	int success;

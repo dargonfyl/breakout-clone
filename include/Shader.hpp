@@ -15,6 +15,7 @@ class Shader {
 	private:
 		unsigned int shader_id; // Shader program id
 
+
 		/**
 		 * Reports a shader error for a shader object with id shader_object.
 		 * 
@@ -22,6 +23,7 @@ class Shader {
 		 * @param std::string type: type of the shader object. (i.e. program, fragment shader, etc.)
 		 */
 		void shader_error(GLuint shader_object, std::string type);
+
 
 		/**
 		 * Compiles a shader.
@@ -34,6 +36,7 @@ class Shader {
 		 */
 		int compile(const char *shader_source, GLenum shader_type, unsigned int &shader);
 
+
 		/**
 		 * Links a vertex & fragment shader into a program. Will also set shader_id.
 		 * 
@@ -43,7 +46,8 @@ class Shader {
 		 * 
 		 * @return int: GL_TRUE if compile success, GL_FALSE otherwise
 		 */
-		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program);
+		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program, const unsigned int geom_shader = 0);
+
 
 	public:
 		/**
@@ -51,24 +55,29 @@ class Shader {
 		 * @param const char *vertex_path: Path to a glsl file for vertex shader.
 		 * @param const char *fragment_path: Path to a glsl file for fragment shader.
 		 */
-		Shader(const char *vertex_path, const char *fragment_path); // Constructor
-		
+		Shader(const char *vertex_path, const char *fragment_path, const char *geometry_path = nullptr); // Constructor
+
+
 		/**
 		 * Activates a shader. Remember to set uniforms!
 		 */
 		Shader &use(); // Used to activate shader
+
 
 		/**
 		 * Gets this shader program's id.
 		 */
 		unsigned int get_shader_id();
 
+
 		// Utilities: setters for uniforms
 		// NOTE: const functions can only be called by an object that's been declared const
-		
+
+
 		void set_bool(const std::string & name, bool value) const;
 		void set_int(const std::string & name, int value) const;
 		void set_float(const std::string & name, float value) const;
+
 
 		/**
 		 * Sets a 4x4 transformation matrix.
@@ -78,6 +87,7 @@ class Shader {
 		 * @param glm::mat4 value: value of uniform
 		 */
 		void set_mat4(const std::string & name, glm::mat4 value) const;
+
 
 		void set_vec2(const std::string & name, glm::vec2 value) const;
 		void set_vec3(const std::string & name, glm::vec3 value) const;

@@ -1,5 +1,5 @@
-# GGG Template
-glad, glm, and glfw all in one. Inspired by [bigg](https://github.com/JoshuaBrookover/bigg).
+# Breakout Clone
+The Breakout clone from [LearnOpenGL](https://learnopengl.com/In-Practice/2D-Game/Breakout).
 
 ## Requirements
 You will need:
@@ -18,3 +18,7 @@ __NOTE:__ You should configure with 64-bit. To quote the Linux manuals, _undefin
 
 ## License
 Licensed under The Unlicense, that is, you're pretty much free to do whatever you want with this code, and there is no warranty/liability.
+
+## Acknowledgements
+- [Joey de Vries](https://github.com/JoeyDeVries), who made Learn OpenGL
+- [Tomasz Gałaj](https://github.com/Shot511), who made [this](https://shot511.github.io/2018-05-29-how-to-setup-opengl-project-with-cmake/) handy CMake tutorial.

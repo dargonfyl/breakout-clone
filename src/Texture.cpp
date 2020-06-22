@@ -35,3 +35,9 @@ void Texture2D::generate(unsigned int width, unsigned int height, unsigned char 
 void Texture2D::bind() const {
     glBindTexture(GL_TEXTURE_2D, this->id);
 }
+
+
+void Texture2D::set_formats(GLenum internal_format, GLenum image_format) {
+	this->internal_format = internal_format == 0 ? this->internal_format : internal_format;
+	this->image_format = image_format == 0 ? this->image_format : image_format;
+}

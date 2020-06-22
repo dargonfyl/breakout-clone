@@ -16,6 +16,7 @@ class Shader {
 		unsigned int shader_id; // Shader program id
 
 
+
 		/**
 		 * Reports a shader error for a shader object with id shader_object.
 		 * 
@@ -50,6 +51,14 @@ class Shader {
 
 
 	public:
+		/**
+		 * Deprecated. Default constructor so that compilers don't throw errors.
+		 * 
+		 * @deprecated
+		 */
+		Shader() { shader_id = 0; }
+
+
 		/**
 		 * Shader constrctor.
 		 * @param const char *vertex_code: code of a vertex shader

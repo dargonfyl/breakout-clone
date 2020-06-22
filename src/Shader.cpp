@@ -66,6 +66,11 @@ void Shader::shader_error(GLuint shader_object, std::string type) {
 }
 
 
+unsigned int Shader::get_shader_id() {
+	return shader_id; 
+}
+
+
 void Shader::set_bool(const std::string & name, bool value) const {         
 	glUniform1i(glGetUniformLocation(shader_id, name.c_str()), (int)value); 
 }

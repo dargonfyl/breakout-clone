@@ -1,77 +1,26 @@
 #include "Shader.hpp"
 
 
-Shader::Shader(const char *vertex_path, const char *fragment_path, const char *geometry_path) {
-	std::string vertex_code, fragment_code;
-	std::ifstream vshader_file, fshader_file;
-
-	vshader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fshader_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-	try {
-		// Open files
-		vshader_file.open(vertex_path);
-		fshader_file.open(fragment_path);
-		std::stringstream vshader_stream, fshader_stream;
-
-		// Read file's buffer contents into stream
-		vshader_stream << vshader_file.rdbuf();
-		fshader_stream << fshader_file.rdbuf();
-
-		// Close file handlers
-		vshader_file.close();
-		fshader_file.close();
-
-		// Convert stream to string
-		vertex_code = vshader_stream.str();
-		fragment_code = fshader_stream.str();
-	} catch(std::ifstream::failure e) {
-		std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-	const char *vshader_code = vertex_code.c_str();
-	const char *fshader_code = fragment_code.c_str();
+Shader::Shader(const char *vertex_code, const char *fragment_code, const char *geometry_code) {
 	int success;
+	unsigned int vertex_shader, fragment_shader, geometry_shader;
+	
+	success = compile(vertex_code, GL_VERTEX_SHADER, vertex_shader);
+	if (!success) shader_error(vertex_shader, "VERTEX");
 
-	unsigned int vertex_shader, fragment_shader;
-	success = compile(vshader_code, GL_VERTEX_SHADER, vertex_shader);
-	if (!success) shader_error(vertex_shader, "VERTEX_SHADER");
+	success = compile(fragment_code, GL_FRAGMENT_SHADER, fragment_shader);
+	if (!success) shader_error(fragment_shader, "FRAGMENT");
 
-	success = compile(fshader_code, GL_FRAGMENT_SHADER, fragment_shader);
-	if (!success) shader_error(vertex_shader, "FRAGMENT_SHADER");
+	if (geometry_code != nullptr) {
+		success = compile(fragment_code, GL_FRAGMENT_SHADER, geometry_shader);
+		if (!success) shader_error(fragment_shader, "GEOMETRY");
+	}
 
 	unsigned int shader_program;
+	success = geometry_code == nullptr ? link(vertex_shader, fragment_shader, shader_program) : 
+										 link(vertex_shader, fragment_shader, shader_program, geometry_shader);
+	if (!success) shader_error(fragment_shader, "PROGRAM");
 
-	unsigned int geometry_shader;
-	// Geometry shader section
-	if (geometry_path != nullptr) {
-		std::string geometry_code;
-		std::ifstream geometry_file;
-		geometry_file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-		try {
-			geometry_file.open(geometry_path);
-			std::stringstream geometry_stream;
-			geometry_file.close();
-			geometry_code = geometry_stream.str();
-		} catch(std::ifstream::failure e) {
-			std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-			exit(EXIT_FAILURE);
-		}
-		const char *gshader_code = geometry_code.c_str();
-		
-		success = compile(gshader_code, GL_GEOMETRY_SHADER, geometry_shader);
-		if (!success) shader_error(vertex_shader, "GEOMETRY_SHADER");
-	}
-
-
-	success = geometry_path == nullptr ? link(vertex_shader, fragment_shader, shader_program) :
-				link(vertex_shader, fragment_shader, shader_program, geometry_shader);
-
-	if (!success) shader_error(vertex_shader, "PROGRAM");
-
-	glDeleteShader(fragment_shader);
-	glDeleteShader(vertex_shader);
 	shader_id = shader_program;
 }
 
@@ -112,7 +61,7 @@ void Shader::shader_error(GLuint shader_object, std::string type) {
 	if (type != "PROGRAM")
 		std::cerr << "ERROR::SHADER::" << type << "::COMPILATION_FAILED\n" << info_log << std::endl;
 	else
-		std::cerr << "ERROR::SHADER::" << type << "::LINK-FAILED\n" << info_log << std::endl;
+		std::cerr << "ERROR::SHADER::" << type << "::LINK_FAILED\n" << info_log << std::endl;
 	exit(EXIT_FAILURE);
 }
 

@@ -46,16 +46,17 @@ class Shader {
 		 * 
 		 * @return int: GL_TRUE if compile success, GL_FALSE otherwise
 		 */
-		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program, const unsigned int geom_shader = 0);
+		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program, const unsigned int geom_shader=0);
 
 
 	public:
 		/**
 		 * Shader constrctor.
-		 * @param const char *vertex_path: Path to a glsl file for vertex shader.
-		 * @param const char *fragment_path: Path to a glsl file for fragment shader.
+		 * @param const char *vertex_code: code of a vertex shader
+		 * @param const char *fragment_code: code of a fragment shader
+		 * @param const char *geometry_code: code of a geometry shader
 		 */
-		Shader(const char *vertex_path, const char *fragment_path, const char *geometry_path = nullptr); // Constructor
+		Shader(const char *vertex_code, const char *fragment_code, const char *geometry_code=nullptr); // Constructor
 
 
 		/**

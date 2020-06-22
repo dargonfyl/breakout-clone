@@ -36,3 +36,13 @@ void Game::render() {
 void Game::set_state(enum Gamestate state) {
 	this->state = state;
 }
+
+
+void Game::press_key(int key) {
+	keys[key] = true;
+}
+
+
+void Game::release_key(int key) {
+	keys[key] = false;
+}

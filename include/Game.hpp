@@ -20,6 +20,7 @@ class Game {
 		enum Gamestate state;
 
 
+		// Tracks whether a key is pressed or not; true for pressed, false for released/unpressed
 		bool keys[1024];
 
 
@@ -73,5 +74,21 @@ class Game {
 		 * Set the state of the Game.
 		 */
 		void set_state(enum Gamestate state);
+
+
+		/**
+		 * Marks a key as pressed.
+		 * 
+		 * @param int key: key by id
+		 */
+		void press_key(int key);
+
+
+		/**
+		 * Marks a key as released/not pressed.
+		 * 
+		 * @param int key: key by id
+		 */
+		void release_key(int key);
 
 };

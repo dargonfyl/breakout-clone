@@ -31,3 +31,8 @@ void Game::process_input(float dt) {
 void Game::render() {
 	
 }
+
+
+void Game::set_state(enum Gamestate state) {
+	this->state = state;
+}

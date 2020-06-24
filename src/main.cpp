@@ -15,7 +15,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode) {
 	// Exit key
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+		glfwSetWindowShouldClose(window, true);
 
 	if (key >= 0 && key < 1024) { // These are the standard keyboard keys
 		if (action == GLFW_PRESS) Breakout.press_key(key);
@@ -68,8 +68,8 @@ GLFWwindow *init_window() {
 
 	// GL config; these don't change much
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-    glEnable(GL_BLEND);  // Blend for alpha things
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);  // Blend for alpha things
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	return window;
 }

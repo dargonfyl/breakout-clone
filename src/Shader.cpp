@@ -11,14 +11,14 @@ Shader::Shader(const char *vertex_code, const char *fragment_code, const char *g
 	success = compile(fragment_code, GL_FRAGMENT_SHADER, fragment_shader);
 	if (!success) shader_error(fragment_shader, "FRAGMENT");
 
+	geometry_shader = 0;
 	if (geometry_code != nullptr) {
-		success = compile(fragment_code, GL_FRAGMENT_SHADER, geometry_shader);
+		success = compile(geometry_code, GL_FRAGMENT_SHADER, geometry_shader);
 		if (!success) shader_error(fragment_shader, "GEOMETRY");
 	}
 
 	unsigned int shader_program;
-	success = geometry_code == nullptr ? link(vertex_shader, fragment_shader, shader_program) : 
-										 link(vertex_shader, fragment_shader, shader_program, geometry_shader);
+	success = link(vertex_shader, fragment_shader, shader_program, geometry_shader);
 	if (!success) shader_error(fragment_shader, "PROGRAM");
 
 	shader_id = shader_program;
@@ -46,7 +46,9 @@ int Shader::link(const unsigned int vertex_shader, const unsigned int frag_shade
 	shader_program = glCreateProgram();
 	glAttachShader(shader_program, vertex_shader);
 	glAttachShader(shader_program, frag_shader);
-	if (geom_shader != 0) glAttachShader(shader_program, geom_shader);
+	if (geom_shader != 0) {
+		glAttachShader(shader_program, geom_shader);
+	}
 	glLinkProgram(shader_program);
 
 	int success;

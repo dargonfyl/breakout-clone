@@ -66,9 +66,10 @@ Shader Resource_Manager::load_shader_from_file(const char *vertex_path, const ch
 	fragment_code = read_shader(fragment_path);
 	if (geometry_path != nullptr) {
 		geometry_code = read_shader(geometry_path);
+		return Shader(vertex_code.c_str(), fragment_code.c_str(), geometry_code.c_str());
 	}
 
-	return Shader(vertex_code.c_str(), fragment_code.c_str(), geometry_code.c_str());
+	return Shader(vertex_code.c_str(), fragment_code.c_str(), nullptr);
 }
 
 

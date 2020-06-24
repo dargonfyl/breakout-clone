@@ -23,5 +23,5 @@ Vertex shader for quad objects.
 void main() {
     tex_coord = layout_tex_coord;
 
-    gl_Position = projection * model * vec4(vertex, 0.0, 0.0); 
+    gl_Position = projection * model * vec4(vertex, 0.0, 1.0);
 }

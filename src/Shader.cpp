@@ -34,8 +34,8 @@ Shader &Shader::use() {
 
 
 void Shader::delete_shader() {
-	assert(shader_id != 0 && "Shader::delete_shader: Attempted to delete Shader when shader_id == 0");
-	glDeleteShader(shader_id);
+	assert(shader_id != 0 && "Shader::delete_shader: Attempted to delete program when shader_id == 0");
+	glDeleteProgram(shader_id);
 }
 
 

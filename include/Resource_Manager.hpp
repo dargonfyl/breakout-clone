@@ -1,11 +1,12 @@
 #pragma once
 
+#include <glad/glad.h>
 #include <map>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <glad/glad.h>
+#include <assert.h>
 
 #include "Texture.hpp"
 #include "Shader.hpp"

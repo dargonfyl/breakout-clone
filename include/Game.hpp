@@ -1,11 +1,11 @@
-/**
- * Main Game object.
- */
-
 #pragma once
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <assert.h>
+
+#include "Sprite_Renderer.hpp"
+#include "Resource_Manager.hpp"
 
 
 enum Gamestate {
@@ -15,6 +15,9 @@ enum Gamestate {
 };
 
 
+/**
+ * Main Game object.
+ */
 class Game {
 	private:
 		enum Gamestate state;

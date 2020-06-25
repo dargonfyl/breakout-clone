@@ -57,7 +57,7 @@ Texture2D Resource_Manager::get_texture(std::string name) {
 
 void Resource_Manager::clear() {
 	for (auto iter : shaders)
-		glDeleteProgram(iter.second.get_shader_id()); // TODO: put this in its own method
+		iter.second.delete_shader();
 	for (auto iter : textures)
 		iter.second.delete_texture();
 }

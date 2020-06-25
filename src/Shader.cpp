@@ -27,9 +27,15 @@ Shader::Shader(const char *vertex_code, const char *fragment_code, const char *g
 
 
 Shader &Shader::use() {
-	assert(shader_id != 0 && "Attempted to use Shader when shader_id == 0");
+	assert(shader_id != 0 && "Shader::use: Attempted to use Shader when shader_id == 0");
 	glUseProgram(shader_id);
 	return *this;  // Returns reference, so return value of this pointer
+}
+
+
+void Shader::delete_shader() {
+	assert(shader_id != 0 && "Shader::delete_shader: Attempted to delete Shader when shader_id == 0");
+	glDeleteShader(shader_id);
 }
 
 

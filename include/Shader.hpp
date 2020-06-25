@@ -76,6 +76,14 @@ class Shader {
 
 
 		/**
+		 * Deletes the associated glShaderProgram.
+		 * 
+		 * NOTE: this does not delete the object!
+		 */
+		void delete_shader();
+
+
+		/**
 		 * Gets this shader program's id.
 		 */
 		unsigned int get_shader_id();

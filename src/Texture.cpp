@@ -38,6 +38,16 @@ void Texture2D::generate(unsigned int width, unsigned int height, unsigned char 
 }
 
 
+unsigned int Texture2D::get_id() {
+	return id;
+}
+
+
+void Texture2D::delete_texture() {
+	glDeleteTextures(1, &id);
+}
+
+
 void Texture2D::bind() {
 	assert(id != 0 && "Texture2D::id == 0 in Texture2D::bind");
     glBindTexture(GL_TEXTURE_2D, this->id);

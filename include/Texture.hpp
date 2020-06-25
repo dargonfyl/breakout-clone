@@ -6,6 +6,7 @@
 
 class Texture2D {
 	private:
+		unsigned int id;
 		unsigned int width, height;
 
 		unsigned int internal_format; // Format of texture object
@@ -19,7 +20,7 @@ class Texture2D {
 		// if i had to be honest, i'd say that the solution is to call gldeletetexture in a destructor rather than exposing this member
 		// but honestly, mixing the c++ and c styles is a terrible idea
 		// TODO: this is dumb
-		unsigned int id;
+		
 
 
 		/**
@@ -27,6 +28,20 @@ class Texture2D {
 		 * A bunch of internal members are set to their default values.
 		 */
 		Texture2D();
+
+
+		/**
+		 * Gets the texture id for this glTexture
+		 */
+		unsigned int get_id();
+
+
+		/**
+		 * Deletes a glTexture.
+		 * 
+		 * NOTE: this does not delete this object!
+		 */
+		void delete_texture();
 
 
 		/**

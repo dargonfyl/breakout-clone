@@ -4,6 +4,8 @@ project(breakout)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall")
+
 # Add project files
 set(ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 

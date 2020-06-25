@@ -11,10 +11,11 @@ Run the following:
 ```
 $ mkdir build
 $ cd build
-$ cmake .. [-G your-target-generator]
+$ cmake .. [-G your-target-generator] [-DCMAKE_BUILD_TYPE=Release/Debug]
 $ cmake --build .
 ```
 __NOTE:__ You should configure with 64-bit. To quote the Linux manuals, _undefined behaviour_ may occur if you do not.
+__NOTE:__ This project has a lot of assertions that only work in Debug mode. It is recommended that you start in Debug mode for this reason.
 
 ## License
 Licensed under The Unlicense, that is, you're pretty much free to do whatever you want with this code, and there is no warranty/liability.

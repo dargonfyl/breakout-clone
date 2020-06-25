@@ -22,10 +22,12 @@ Shader::Shader(const char *vertex_code, const char *fragment_code, const char *g
 	if (!success) shader_error(fragment_shader, "PROGRAM");
 
 	shader_id = shader_program;
+	assert(shader_id != 0 && "shader_id == 0 after constructor call");
 }
 
 
 Shader &Shader::use() {
+	assert(shader_id != 0 && "Attempted to use Shader when shader_id == 0");
 	glUseProgram(shader_id);
 	return *this;  // Returns reference, so return value of this pointer
 }

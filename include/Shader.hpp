@@ -13,7 +13,7 @@
 
 class Shader {
 	private:
-		unsigned int shader_id; // Shader program id
+		unsigned int shader_id = 0; // Shader program id. If this is 0, this is not a valid shader and should not be referenced.
 
 
 
@@ -52,15 +52,16 @@ class Shader {
 
 	public:
 		/**
-		 * Deprecated. Default constructor so that compilers don't throw errors.
+		 * Deprecated. Default constructor so that std::map has a default constructor.
 		 * 
 		 * @deprecated
 		 */
-		Shader() { shader_id = 0; }
+		Shader() { }
 
 
 		/**
-		 * Shader constrctor.
+		 * Shader constrctor. We enforce that Shader::get_shader_id() != 0.
+		 * 
 		 * @param const char *vertex_code: code of a vertex shader
 		 * @param const char *fragment_code: code of a fragment shader
 		 * @param const char *geometry_code: code of a geometry shader

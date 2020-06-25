@@ -15,6 +15,7 @@ $ cmake .. [-G your-target-generator] [-DCMAKE_BUILD_TYPE=Release/Debug]
 $ cmake --build .
 ```
 __NOTE:__ You should configure with 64-bit. To quote the Linux manuals, _undefined behaviour_ may occur if you do not.
+
 __NOTE:__ This project has a lot of assertions that only work in Debug mode. It is recommended that you start in Debug mode for this reason.
 
 ## License

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <assert.h>
 
 
 class Texture2D {
@@ -41,7 +42,7 @@ class Texture2D {
 		/**
 		 * Bind this texture to the graphics pipeline.
 		 */
-		void bind() const;
+		void bind();
 
 
 		/**

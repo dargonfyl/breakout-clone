@@ -13,15 +13,21 @@ Texture2D::Texture2D() {
 	filter_max = GL_LINEAR;
 
 	glGenTextures(1, &this->id);
+	assert(id != 0 && "Texture2D::id == 0 in constructor");
 }
 
 
 void Texture2D::generate(unsigned int width, unsigned int height, unsigned char *data) {
+	assert(data && "data is empty in Texture2D::generate");
+	assert(width > 0 && "width is 0 in Texture2D::generate");
+	assert(height > 0 && "height is 0 in Texture2D::generate");
 	this->width = width;
 	this->height = height;
 
+	assert(id != 0 && "Texture2D::id == 0 in Texture2D::generate");
 	glBindTexture(GL_TEXTURE_2D, this->id);
 	glTexImage2D(GL_TEXTURE_2D, 0, this->internal_format, width, height, 0, this->image_format, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, this->wrap_s);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this->wrap_t);
@@ -32,7 +38,8 @@ void Texture2D::generate(unsigned int width, unsigned int height, unsigned char 
 }
 
 
-void Texture2D::bind() const {
+void Texture2D::bind() {
+	assert(id != 0 && "Texture2D::id == 0 in Texture2D::bind");
     glBindTexture(GL_TEXTURE_2D, this->id);
 }
 

@@ -4,6 +4,10 @@
 #include <assert.h>
 
 
+/**
+ * Texture2D class.
+ * Handles 2D textures and their attributes.
+ */
 class Texture2D {
 	private:
 		unsigned int id;
@@ -15,14 +19,8 @@ class Texture2D {
 		// Texture configs
 		unsigned int wrap_s, wrap_t, filter_min, filter_max;
 
+
 	public:
-		// How the hell do you put this thing into private while letting opengl change it in gldeletetexture?????
-		// if i had to be honest, i'd say that the solution is to call gldeletetexture in a destructor rather than exposing this member
-		// but honestly, mixing the c++ and c styles is a terrible idea
-		// TODO: this is dumb
-		
-
-
 		/**
 		 * Constructor for Texture2D
 		 * A bunch of internal members are set to their default values.

@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <math.h>
+#include <assert.h>
 
 #include "Texture.hpp"
 #include "Sprite_Renderer.hpp"
@@ -14,7 +16,8 @@
  * 
  * NOTE: This is an abstract class! c++ doesn't have a nice way to declare that, which is annoying.
  * 
- * @abstract
+ * @abstract: update() and draw() are (non-pure) virtual.
+ * 
  */
 class Game_Object {
 	private:
@@ -61,7 +64,7 @@ class Game_Object {
 		 * 
 		 * @virtual
 		 */
-		virtual void update() = 0;
+		virtual void update();
 
 
 		/**
@@ -69,7 +72,7 @@ class Game_Object {
 		 * 
 		 * @param SpriteRenderer &renderer: sprite renderer to use.
 		 */
-		virtual void draw(Sprite_Renderer &renderer) = 0;
+		virtual void draw(Sprite_Renderer &renderer);
 
 
 		/**
@@ -133,7 +136,7 @@ class Game_Object {
 		 * 
 		 * @param glm::vec2 size: size in pixels, (width, height) format
 		 */
-		void resize(glm::vec2 size);
+		void set_size(glm::vec2 size);
 
 
 		/**
@@ -170,9 +173,11 @@ class Game_Object {
 
 
 		/**
-		 * Sets the solidity (is that a word?) of this object.
+		 * Sets the solidity (is that a word?) of this object, and returns the previous state.
 		 * 
 		 * @param bool solidity: is solid
+		 * 
+		 * @return bool: previous state
 		 */
 		bool set_solid(bool solidity);
 

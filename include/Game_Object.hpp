@@ -44,7 +44,7 @@ class Game_Object {
 		 * 
 		 * Default constructor; this will set everything to 0.
 		 */
-		Game_Object() { }
+		Game_Object();
 
 
 		/**

@@ -29,7 +29,23 @@ void Game::init() {
 
 	renderer = new Sprite_Renderer(quad_shader);
 
+	Resource_Manager::load_texture("../data/block_tile.png", false, "block_tile");
+	Resource_Manager::load_texture("../data/solid_tile.png", false, "solid_tile");
+
 	Resource_Manager::load_texture("../data/awesomeface.png", true, "face");
+	Resource_Manager::load_texture("../data/background.jpg", false, "background");
+
+	// Levels
+	Game_Level one("../data/levels/one.lvl", this->width, this->height / 2);
+	Game_Level two("../data/levels/two.lvl", this->width, this->height / 2);
+	Game_Level three("../data/levels/three.lvl", this->width, this->height / 2);
+	Game_Level four("../data/levels/four.lvl", this->width, this->height / 2);
+
+	this->levels.push_back(one);
+	this->levels.push_back(two);
+	this->levels.push_back(three);
+	this->levels.push_back(four);
+	this->current_level = 0;  // First level
 }
 
 
@@ -44,8 +60,12 @@ void Game::process_input(float dt) {
 
 
 void Game::render() {
-	Texture2D tex = Resource_Manager::get_texture("face");
-	renderer->draw_sprite(tex, glm::vec2(200.0f, 200.0f), glm::vec2(300.0f, 400.0f), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	if(this->state == GAME_ACTIVE) {
+		Texture2D bg_tex = Resource_Manager::get_texture("background");
+		renderer->draw_sprite(bg_tex, glm::vec2(0.0f), glm::vec2(this->width, this->height), 0.0f);
+
+		this->levels[current_level].draw(*renderer);
+	}
 }
 
 

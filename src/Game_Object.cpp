@@ -7,9 +7,9 @@ Game_Object::Game_Object() {
 	velocity = glm::vec2(0.0f);
 	colour = glm::vec3(0.0f);
 
-	float rotation = 0.0f;
+	rotation = 0.0f;
 	solid = false;
-	destroyed = true;
+	destroyed = false;
 }
 
 
@@ -19,6 +19,10 @@ Game_Object::Game_Object(glm::vec2 position, glm::vec2 size, Texture2D sprite, g
 	this->sprite = sprite;
 	this->colour = colour;
 	this->velocity = velocity;
+
+	this->destroyed = false;
+	this->solid = false;
+	this->rotation = 0.0f;
 }
 
 

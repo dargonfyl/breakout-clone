@@ -3,9 +3,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <assert.h>
+#include <vector>
 
 #include "Sprite_Renderer.hpp"
 #include "Resource_Manager.hpp"
+#include "Game_Level.hpp"
 
 
 enum Gamestate {
@@ -28,6 +30,11 @@ class Game {
 
 
 		unsigned int width, height;
+
+
+		// Level things.
+		std::vector<Game_Level> levels;
+		int current_level;  // -1 for no current level
 
 
 	public:

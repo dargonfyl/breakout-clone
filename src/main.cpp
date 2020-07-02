@@ -81,7 +81,7 @@ int main() {
 	glfwSetKeyCallback(window, key_callback);
 
 	Breakout.init();
-	Breakout.set_state(GAME_MENU);
+	Breakout.set_state(GAME_ACTIVE);
 
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;

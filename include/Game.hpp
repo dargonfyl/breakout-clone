@@ -9,6 +9,9 @@
 #include "Resource_Manager.hpp"
 #include "Game_Level.hpp"
 
+#define PLAYER_SIZE glm::vec2(100.0f, 20.0f)
+#define PLAYER_VELOCITY 500.0f
+
 
 enum Gamestate {
 	GAME_ACTIVE,
@@ -35,6 +38,9 @@ class Game {
 		// Level things.
 		std::vector<Game_Level> levels;
 		int current_level;  // -1 for no current level
+
+
+		Game_Object *player;
 
 
 	public:

@@ -35,6 +35,16 @@ void Game::init() {
 	Resource_Manager::load_texture("../data/awesomeface.png", true, "face");
 	Resource_Manager::load_texture("../data/background.jpg", false, "background");
 
+	Resource_Manager::load_texture("../data/paddle.png", true, "paddle");
+
+	// Player resources
+	glm::vec2 player_position = glm::vec2(
+		this->width / 2.0f - PLAYER_SIZE.x / 2.0f, 
+		this->height - PLAYER_SIZE.y
+    );
+
+	this->player = new Game_Object(player_position, PLAYER_SIZE, Resource_Manager::get_texture("paddle"));
+
 	// Levels
 	Game_Level one("../data/levels/one.lvl", this->width, this->height / 2);
 	Game_Level two("../data/levels/two.lvl", this->width, this->height / 2);
@@ -55,7 +65,17 @@ void Game::update(float dt) {
 
 
 void Game::process_input(float dt) {
+	if (this->state == GAME_ACTIVE) {
+		float velocity = dt * PLAYER_VELOCITY;
 
+		// Keyboard movements
+		glm::vec2 pos = player->get_position();
+		if (this->keys[GLFW_KEY_A]) {
+			if (pos.x >= 0.0f) player->set_position(glm::vec2(pos.x - velocity, pos.y));
+		} else if (this->keys[GLFW_KEY_D]) {
+			if (pos.x <= this->width - player->get_size().x) player->set_position(glm::vec2(pos.x + velocity, pos.y));
+		}
+	}
 }
 
 
@@ -65,6 +85,7 @@ void Game::render() {
 		renderer->draw_sprite(bg_tex, glm::vec2(0.0f), glm::vec2(this->width, this->height), 0.0f);
 
 		this->levels[current_level].draw(*renderer);
+		this->player->draw(*renderer);
 	}
 }
 
@@ -75,12 +96,12 @@ void Game::set_state(enum Gamestate state) {
 
 
 void Game::press_key(int key) {
-	assert(key > 0 && key < 1024 && "key in Game::press_key is not in bounds");
+	assert(key >= 0 && key < 1024 && "key in Game::press_key is not in bounds");
 	keys[key] = true;
 }
 
 
 void Game::release_key(int key) {
-	assert(key > 0 && key < 1024 && "key in Game::release_key is not in bounds");
+	assert(key >= 0 && key < 1024 && "key in Game::release_key is not in bounds");
 	keys[key] = false;
 }

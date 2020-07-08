@@ -86,7 +86,7 @@ int main() {
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;
 	while (!glfwWindowShouldClose(window)) {
-		float current_frame = glfwGetTime(); // TODO: Framerate things into their own class?
+		float current_frame = (float)glfwGetTime(); // TODO: Framerate things into their own class?
 		delta_time = current_frame - last_frame;
 		last_frame = current_frame;
 		glfwPollEvents();

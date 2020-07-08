@@ -80,7 +80,7 @@ float Game_Object::get_rotation() {
 
 
 void Game_Object::rotate(float angle) {
-	this->rotation = fmod(this->rotation + angle, 360.0);
+	this->rotation = fmod(this->rotation + angle, 360.0f);
 }
 
 

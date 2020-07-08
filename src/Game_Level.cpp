@@ -13,8 +13,8 @@ void Game_Level::init(std::vector<std::vector<unsigned int>> tile_data, unsigned
 	// Compute dimensions of the game
 	unsigned int height = tile_data.size();
 	unsigned int width = tile_data[0].size();
-	float unit_width = level_width / width;
-	float unit_height = level_height / height;
+	float unit_width = (float)(level_width / width);
+	float unit_height = (float)(level_height / height);
 
 	for (unsigned int y = 0; y < height; y++) {
 		for (unsigned int x = 0; x < width; x++) {

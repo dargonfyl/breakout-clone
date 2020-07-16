@@ -49,7 +49,15 @@ class Ball_Object : public Game_Object {
 		 * 
 		 * @return bool
 		 */
-		bool get_stuck();
+		bool is_stuck();
+
+		
+		/**
+		 * Sets the ball to stuck or not stuck.
+		 * 
+		 * @param bool stuck
+		 */
+		void set_stuck(bool stuck);
 
 
 		/**

@@ -8,6 +8,7 @@
 #include "Sprite_Renderer.hpp"
 #include "Resource_Manager.hpp"
 #include "Game_Level.hpp"
+#include "Ball_Object.hpp"
 
 #define PLAYER_SIZE glm::vec2(100.0f, 20.0f)
 #define PLAYER_VELOCITY 500.0f

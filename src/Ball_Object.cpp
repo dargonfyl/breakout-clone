@@ -50,8 +50,13 @@ void Ball_Object::reset(glm::vec2 position, glm::vec2 velocity) {
 }
 
 
-bool Ball_Object::get_stuck() {
+bool Ball_Object::is_stuck() {
 	return this->stuck;
+}
+
+
+void Ball_Object::set_stuck(bool stuck) {
+	this->stuck = stuck;
 }
 
 

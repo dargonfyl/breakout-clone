@@ -11,11 +11,15 @@ Game::Game(unsigned int width, unsigned int height) {
 }
 
 
-Game::~Game() {
+Game::~Game() { }
 
-}
 
 Sprite_Renderer *renderer;
+
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
+const float BALL_RADIUS = 12.5f;
+Ball_Object *ball; 
+
 
 void Game::init() {
 	// Load shaders
@@ -56,24 +60,45 @@ void Game::init() {
 	this->levels.push_back(three);
 	this->levels.push_back(four);
 	this->current_level = 0;  // First level
+
+	// Ball stuff
+	glm::vec2 ball_position = player_position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);
+	ball = new Ball_Object(ball_position, BALL_RADIUS, INITIAL_BALL_VELOCITY, Resource_Manager::get_texture("face"));
 }
 
 
 void Game::update(float dt) {
-
+	ball->move(dt, this->width);
 }
 
 
 void Game::process_input(float dt) {
 	if (this->state == GAME_ACTIVE) {
-		float velocity = dt * PLAYER_VELOCITY;
+		float velocity = dt * PLAYER_VELOCITY;  // TODO: this is a retarded way of doing this. Make it a vec2, ffs.
 
 		// Keyboard movements
 		glm::vec2 pos = player->get_position();
+		glm::vec2 ball_pos = ball->get_position();
 		if (this->keys[GLFW_KEY_A]) {
-			if (pos.x >= 0.0f) player->set_position(glm::vec2(pos.x - velocity, pos.y));
+			if (pos.x >= 0.0f) {
+				player->set_position(glm::vec2(pos.x - velocity, pos.y));
+
+				if (ball->is_stuck()) {
+					ball->set_position(glm::vec2(ball_pos.x - velocity, ball_pos.y));
+				}
+			}
 		} else if (this->keys[GLFW_KEY_D]) {
-			if (pos.x <= this->width - player->get_size().x) player->set_position(glm::vec2(pos.x + velocity, pos.y));
+			if (pos.x <= this->width - player->get_size().x) {
+				player->set_position(glm::vec2(pos.x + velocity, pos.y));
+
+				if (ball->is_stuck()) {
+					ball->set_position(glm::vec2(ball_pos.x + velocity, ball_pos.y));
+				}
+			}
+		}
+
+		if (this->keys[GLFW_KEY_SPACE]) {
+			ball->set_stuck(false);
 		}
 	}
 }
@@ -86,6 +111,8 @@ void Game::render() {
 
 		this->levels[current_level].draw(*renderer);
 		this->player->draw(*renderer);
+
+		ball->draw(*renderer);
 	}
 }
 

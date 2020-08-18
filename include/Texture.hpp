@@ -45,9 +45,9 @@ class Texture2D {
 		/**
 		 * Generates texture from image data
 		 * 
-		 * @param unsigned int width: image width
-		 * @param unsigned int height: image height
-		 * @param unsigned char *data: image data
+		 * @param width  image width
+		 * @param height image height
+		 * @param data   image data
 		 */
 		void generate(unsigned int width, unsigned int height, unsigned char *data);
 
@@ -59,11 +59,12 @@ class Texture2D {
 
 
 		/**
-		 * Sets the internal and image formats of this texture.
+		 * Sets the internal and image formats of this texture. 
+		 * 
 		 * Set an argument to 0 if you want to leave it unchanged.
 		 * 
-		 * @param GLenum internal_format
-		 * @param GLenum image_format
+		 * @param internal_format As defined by a GLenum
+		 * @param image_format    As defined by a GLenum
 		 */
 		void set_formats(GLenum internal_format, GLenum image_format);
 };

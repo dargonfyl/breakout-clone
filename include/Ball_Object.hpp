@@ -20,10 +20,10 @@ class Ball_Object : public Game_Object {
 		/**
 		 * Constructor. The ball will have an "initial" velocity.
 		 * 
-		 * @param glm::vec2 pos
-		 * @param float radius
-		 * @param glm::vec2 velocity: initial velocity.
-		 * @param Texture2D sprite
+		 * @param pos      Ball position in (x, y)
+		 * @param radius   Ball radius
+		 * @param velocity Initial velocity.
+		 * @param sprite   Ball sprite
 		 * 
 		 * @return Ball_Object
 		 */
@@ -39,8 +39,8 @@ class Ball_Object : public Game_Object {
 		/**
 		 * Resets the ball to a position & a velocity.
 		 * 
-		 * @param glm::vec2 position: position ball is to be in
-		 * @param glm::vec2 velocity: velocity ball should have after released.
+		 * @param position Position ball is to be in
+		 * @param velocity Velocity ball should have after released.
 		 */
 		void reset(glm::vec2 position, glm::vec2 velocity);
 
@@ -55,7 +55,7 @@ class Ball_Object : public Game_Object {
 		/**
 		 * Sets the ball to stuck or not stuck.
 		 * 
-		 * @param bool stuck
+		 * @param stuck
 		 */
 		void set_stuck(bool stuck);
 

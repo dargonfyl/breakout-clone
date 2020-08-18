@@ -29,14 +29,11 @@ class Game_Level {
 		/**
 		 * Initialize for a Game_Level.
 		 * 
-		 * @param std::vector<std::vector<unsigned int>> tile_data: 2D tile data
-		 * @param unsigned int level_width: width of level in pixels
-		 * @param unsigned int level_height: height of level in pixels
+		 * @param tiledata     2D tile data
+		 * @param level_width  width of level in pixels
+		 * @param level_height height of level in pixels
 		 */
 		void init(std::vector<std::vector<unsigned int>> tile_data, unsigned int level_width, unsigned int level_height);
-
-
-		
 
 
 	public:
@@ -49,9 +46,9 @@ class Game_Level {
 		/**
 		 * Constructor; loads a game level from a file.
 		 * 
-		 * @param const char *file: filename of a level, in the appropriate level format.
-		 * @param unsigned int level_width: width of level in pixels
-		 * @param unsigned int level_height: height of level in pixels
+		 * @param file         Filename of a level, in the appropriate level format.
+		 * @param level_width  Width of level in pixels
+		 * @param level_height Height of level in pixels
 		 */
 		Game_Level(const char *file, unsigned int level_width, unsigned int level_height);
 
@@ -59,9 +56,9 @@ class Game_Level {
 		/**
 		 * Loads a game level data from a file.
 		 * 
-		 * @param const char *file: filename of a level, in the appropriate level format.
-		 * @param unsigned int level_width: width of level in pixels
-		 * @param unsigned int level_height: height of level in pixels
+		 * @param file         Filename of a level, in the appropriate level format.
+		 * @param level_width  Width of level in pixels
+		 * @param level_height Height of level in pixels
 		 */
 		void load(const char *file, unsigned int level_width, unsigned int level_height);
 
@@ -69,7 +66,7 @@ class Game_Level {
 		/**
 		 * Draws the bricks of the level.
 		 * 
-		 * @param Sprite_Renderer &renderer: sprite renderer to use.
+		 * @param renderer Sprite renderer to use.
 		 */
 		void draw(Sprite_Renderer &renderer);
 
@@ -77,7 +74,7 @@ class Game_Level {
 		/**
 		 * Returns true if the level is completed, i.e. if all bricks are destroyed.
 		 * 
-		 * @return bool
+		 * @return bool True if completed.
 		 */
 		bool is_completed();
 

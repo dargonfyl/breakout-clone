@@ -16,12 +16,11 @@ class Shader {
 		unsigned int shader_id = 0; // Shader program id. If this is 0, this is not a valid shader and should not be referenced.
 
 
-
 		/**
 		 * Reports a shader error for a shader object with id shader_object.
 		 * 
-		 * @param GLuint shader_object: id of shader object
-		 * @param std::string type: type of the shader object. (i.e. program, fragment shader, etc.)
+		 * @param shader_object GLuint id of shader object
+		 * @param type          Type of the shader object. (i.e. "program", "fragment shader", etc.)
 		 */
 		void shader_error(GLuint shader_object, std::string type);
 
@@ -29,11 +28,11 @@ class Shader {
 		/**
 		 * Compiles a shader.
 		 * 
-		 * @param const char *shader_source: path to glsl file of shader
-		 * @param GLenum shader_type: type of the shader, defined by a GLenum
-		 * @param unsigned int &shader: shader id to set
+		 * @param shader_source path to glsl file of shader
+		 * @param shader_type   Type of the shader, defined by a GLenum
+		 * @param shader        shader id reference to set
 		 * 
-		 * @return int: GL_TRUE if compile success, GL_FALSE otherwise
+		 * @return int/GLint: GL_TRUE if compile success, GL_FALSE otherwise
 		 */
 		int compile(const char *shader_source, GLenum shader_type, unsigned int &shader);
 
@@ -41,11 +40,11 @@ class Shader {
 		/**
 		 * Links a vertex & fragment shader into a program. Will also set shader_id.
 		 * 
-		 * @param const unsigned int vertex_shader: vertex shader id
-		 * @param const unsigned int frag_shader: fragment shader id
-		 * @param unsigned int &shader_program: shader program id to set
+		 * @param vertex_shader  vertex shader id
+		 * @param frag_shader    fragment shader id
+		 * @param shader_program shader program id to set
 		 * 
-		 * @return int: GL_TRUE if compile success, GL_FALSE otherwise
+		 * @return int/GLint: GL_TRUE if compile success, GL_FALSE otherwise
 		 */
 		int link(const unsigned int vertex_shader, const unsigned int frag_shader, unsigned int &shader_program, const unsigned int geom_shader=0);
 
@@ -60,11 +59,11 @@ class Shader {
 
 
 		/**
-		 * Shader constrctor. We enforce that Shader::get_shader_id() != 0.
+		 * Shader constrctor. We enforce that Shader::get_shader_id() != 0 after constructor, otherwise this is an invalid shader.
 		 * 
-		 * @param const char *vertex_code: code of a vertex shader
-		 * @param const char *fragment_code: code of a fragment shader
-		 * @param const char *geometry_code: code of a geometry shader
+		 * @param vertex_code   code for a vertex shader
+		 * @param fragment_code code for a fragment shader
+		 * @param geometry_code Optional code for a geometry shader
 		 */
 		Shader(const char *vertex_code, const char *fragment_code, const char *geometry_code=nullptr); // Constructor
 
@@ -99,11 +98,12 @@ class Shader {
 
 
 		/**
-		 * Sets a 4x4 transformation matrix.
-		 * NOTE: glm is column major; you may need to transpose your matrix!
+		 * Sets a 4x4 transformation matrix. 
 		 * 
-		 * @param std::string name: name of uniform
-		 * @param glm::mat4 value: value of uniform
+		 * Warning: glm is column major; you may need to transpose your matrix!
+		 * 
+		 * @param name name of uniform
+		 * @param value value of uniform
 		 */
 		void set_mat4(const std::string & name, glm::mat4 value) const;
 

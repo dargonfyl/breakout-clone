@@ -48,8 +48,8 @@ class Game {
 		/**
 		 * Constructor for Game class. Note that there should only be 1 of these.
 		 * 
-		 * @param unsigned int width
-		 * @param unsigned int height
+		 * @param width
+		 * @param height
 		 */
 		Game(unsigned int width, unsigned int height);
 
@@ -69,14 +69,14 @@ class Game {
 		// Game loop methods
 		/**
 		 * Processes user input.
-		 * @param float dt: time interval
+		 * @param dt time interval
 		 */
 		void process_input(float dt);
 
 
 		/**
 		 * Updates the game state, information, etc.
-		 * @param float dt: time interval
+		 * @param dt time interval
 		 */
 		void update(float dt);
 
@@ -96,7 +96,7 @@ class Game {
 		/**
 		 * Marks a key as pressed.
 		 * 
-		 * @param int key: key by id
+		 * @param key Key by GLFW key id
 		 */
 		void press_key(int key);
 
@@ -104,7 +104,7 @@ class Game {
 		/**
 		 * Marks a key as released/not pressed.
 		 * 
-		 * @param int key: key by id
+		 * @param key Key by GLFW key id
 		 */
 		void release_key(int key);
 

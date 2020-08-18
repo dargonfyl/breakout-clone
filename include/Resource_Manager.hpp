@@ -30,9 +30,9 @@ class Resource_Manager {
 		/**
 		 * Loads a shader from filepaths.
 		 * 
-		 * @param const char *vertex_path
-		 * @param const char *fragment_path
-		 * @param const char *geometry_path: optional
+		 * @param vertex_path   Vertex shader path
+		 * @param fragment_path Fragment shader path
+		 * @param geometry_path Optional geometry shader path
 		 * 
 		 * @return Shader: a shader program object
 		 */
@@ -54,9 +54,9 @@ class Resource_Manager {
 		/**
 		 * Load & generate a shader program from a bunch of filepaths, and puts it into the internal map.
 		 * 
-		 * @param const char *vertex_path
-		 * @param const char *fragment_path
-		 * @param const char *geometry_path: optional. Set to nullptr or NULL if undesired.
+		 * @param vertex_path   Vertex shader path
+		 * @param fragment_path Fragment shader path
+		 * @param geometry_path Optional. Set to nullptr or NULL if undesired.
 		 * @param std::string name: name in the map.
 		 * 
 		 * @return Shader: A shader program
@@ -67,7 +67,7 @@ class Resource_Manager {
 		/**
 		 * Get a shader.
 		 * 
-		 * @param std::string name: name of shader
+		 * @param name Name of shader
 		 * 
 		 * @return Shader: shader with the name.
 		 */
@@ -77,9 +77,9 @@ class Resource_Manager {
 		/**
 		 * Load & generate a texture from a filepath, and puts it into the internal map.
 		 * 
-		 * @param const char *path
-		 * @param bool alpha: reads in alpha channel, if it exists & is true
-		 * @param std::string name: name in the map
+		 * @param path
+		 * @param alpha True to read in alpha channel, if it exists
+		 * @param name  Name in the ResourceManager's map
 		 * 
 		 * @return Texture2D: A texture
 		 */
@@ -89,7 +89,7 @@ class Resource_Manager {
 		/**
 		 * Get a texture
 		 * 
-		 * @param std::string name: name of texture
+		 * @param name Name of texture in resource manager.
 		 * 
 		 * @return Texture2D: texture with the name
 		 */

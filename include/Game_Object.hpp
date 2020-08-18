@@ -16,7 +16,7 @@
  * 
  * NOTE: This is an abstract class! c++ doesn't have a nice way to declare that, which is annoying.
  * 
- * @abstract: update() and draw() are (non-pure) virtual.
+ * ABSTRACT: update() and draw() are (non-pure) virtual.
  * 
  */
 class Game_Object {
@@ -43,32 +43,34 @@ class Game_Object {
 		 * Constructor for Game_Object.
 		 * 
 		 * Default constructor; this will set everything to 0.
+		 * 
+		 * NOTE: do not use if it can be avoided.
 		 */
 		Game_Object();
 
 
 		/**
-		 * Constructor for Game_Object
+		 * Constructor for Game_Object.
 		 * 
-		 * @param glm::vec2 position: position
-		 * @param glm::vec2 size
-		 * @param Texture2D sprite
-		 * @param OPTIONAL glm::vec3 colour: defaults to white (vec3(1.0f))
-		 * @param OPTIONAL glm::vec2 velocity: defaults to vec2(0.0f)
+		 * @param position: position
+		 * @param size      size in (x, y)
+		 * @param sprite    Texture2D sprite
+		 * @param colour    OPTIONAL defaults to white (vec3(1.0f))
+		 * @param velocity  OPTIONAL defaults to vec2(0.0f)
+		 * 
+		 * @return Game_Object: a game object
 		 */
 		Game_Object(glm::vec2 position, glm::vec2 size, Texture2D sprite, glm::vec3 colour=glm::vec3(1.0f), glm::vec2 velocity=glm::vec2(0.0f));
 
 
 		/**
-		 * Updates this object for a frame.
-		 * 
-		 * @virtual
+		 * VIRTUAL: Updates this object for a frame.
 		 */
 		virtual void update();
 
 
 		/**
-		 * Draw the sprite associated with this object.
+		 * VIRTUAL: Draw the sprite associated with this object.\r\n
 		 * 
 		 * @param SpriteRenderer &renderer: sprite renderer to use.
 		 */
@@ -86,7 +88,7 @@ class Game_Object {
 		/**
 		 * Sets the position of this object, in pixels.
 		 * 
-		 * @param glm::vec2 position
+		 * @param position in (x, y)
 		 */
 		void set_position(glm::vec2 position);
 
@@ -102,7 +104,7 @@ class Game_Object {
 		/**
 		 * Sets the colour of this object.
 		 *
-		 * @param glm::vec3 colour
+		 * @param colour in normalized rgb
 		 */
 		void set_colour(glm::vec3 colour);
 
@@ -110,7 +112,7 @@ class Game_Object {
 		/**
 		 * Gets the velocity of this object.
 		 * 
-		 * @return glm::vec2: velocity in pixels/tick
+		 * @return velocity in pixels/tick
 		 */
 		glm::vec2 get_velocity();
 		
@@ -118,7 +120,7 @@ class Game_Object {
 		/**
 		 * Sets the velocity of this object.
 		 * 
-		 * @param glm::vec2 velocity: velocity, in pixels/tick
+		 * @param velocity: velocity, in pixels/tick
 		 */
 		void set_velocity(glm::vec2 velocity);
 
@@ -134,7 +136,7 @@ class Game_Object {
 		/**
 		 * Sets the size of this object.
 		 * 
-		 * @param glm::vec2 size: size in pixels, (width, height) format
+		 * @param size in pixels, (width, height) format
 		 */
 		void set_size(glm::vec2 size);
 
@@ -149,7 +151,8 @@ class Game_Object {
 
 		/**
 		 * Rotates this object by an amount in degrees.
-		 * Note: this rotates the object, and does not set the angle. To do that, use set_rotation.
+		 * 
+		 * NOTE: this rotates the object, and does not set the angle. To do that, use set_rotation.
 		 * 
 		 * @param float angle: angle to rotate. Note that the final representation will be in [0, 360)
 		 */
@@ -159,7 +162,7 @@ class Game_Object {
 		/**
 		 * Sets the rotation of this object.
 		 * 
-		 * @param float angle: angle in degrees, in the range [0, 360)
+		 * @param angle angle in degrees, in the range [0, 360)
 		 */
 		void set_rotation(float angle);
 
@@ -175,7 +178,7 @@ class Game_Object {
 		/**
 		 * Sets the solidity (is that a word?) of this object, and returns the previous state.
 		 * 
-		 * @param bool solidity: is solid
+		 * @param solidity is solid, true for solid, false for not solid.
 		 * 
 		 * @return bool: previous state
 		 */

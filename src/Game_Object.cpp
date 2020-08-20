@@ -1,6 +1,8 @@
 #include "Game_Object.hpp"
 
 
+unsigned int num_objects = 0;
+
 Game_Object::Game_Object() {
 	position = glm::vec2(0.0f);
 	size = glm::vec2(0.0f);
@@ -8,8 +10,11 @@ Game_Object::Game_Object() {
 	colour = glm::vec3(0.0f);
 
 	rotation = 0.0f;
-	solid = false;
+	solid = true;
 	destroyed = false;
+
+	this->id = num_objects;
+	num_objects++;
 }
 
 
@@ -20,9 +25,11 @@ Game_Object::Game_Object(glm::vec2 position, glm::vec2 size, Texture2D sprite, g
 	this->colour = colour;
 	this->velocity = velocity;
 
+	this->solid = true;
 	this->destroyed = false;
-	this->solid = false;
 	this->rotation = 0.0f;
+	this->id = num_objects;
+	num_objects++;
 }
 
 
@@ -31,6 +38,11 @@ void Game_Object::update() { }
 
 void Game_Object::draw(Sprite_Renderer &renderer) {
 	renderer.draw_sprite(this->sprite, this->position, this->size, this->rotation, this->colour);
+}
+
+
+unsigned int Game_Object::get_id() {
+	return this->id;
 }
 
 
@@ -108,7 +120,7 @@ bool Game_Object::get_destroyed() {
 
 
 void Game_Object::destory_object() {
-	this->destroyed = false;
+	this->destroyed = true;
 }
 
 

@@ -25,9 +25,10 @@ class Game_Object {
 		glm::vec2 position, size, velocity;
 		glm::vec3 colour;
 
-		float rotation;  // In degrees. This is in the range [0, 360)
 		bool solid, destroyed;
-
+		unsigned int id;
+		float rotation;  // In degrees. This is in the range [0, 360)
+		
 		// Render state
 		Texture2D sprite;
 
@@ -76,6 +77,13 @@ class Game_Object {
 		 */
 		virtual void draw(Sprite_Renderer &renderer);
 
+
+		/**
+		 * Gets the object id.
+		 * 
+		 * @return `unsigned int` object id
+		 */
+		unsigned int get_id();
 
 		/**
 		 * Gets position.

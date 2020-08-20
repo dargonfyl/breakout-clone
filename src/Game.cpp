@@ -66,9 +66,46 @@ void Game::init() {
 	ball = new Ball_Object(ball_position, BALL_RADIUS, INITIAL_BALL_VELOCITY, Resource_Manager::get_texture("face"));
 }
 
+/**
+ * Helper for checking collisions between the ball and tiles.
+ * 
+ * Very quick & dirty explanation of what this does:
+ * 
+ * Given a ball and a tile, we want to find the points on the tile that are closest to the ball. ("clamped")
+ * Afterwards, if clamped and the ball's center are less than a radius apart, then we've intersected.
+ */
+bool check_collision(Ball_Object &o1, Game_Object &o2) {
+	glm::vec2 ball_center = o1.get_position() + o1.get_radius();
+
+	// AABB for the tile
+	glm::vec2 aabb_half_extents = glm::vec2(0.5) * o2.get_size();
+	glm::vec2 aabb_center = o2.get_position() + aabb_half_extents;
+
+	// Get difference between the two cobjects' centers
+	glm::vec2 difference = ball_center - aabb_center;
+	glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents);
+
+	// Find closest point to ball
+	glm::vec2 closest = aabb_center + clamped;
+
+	difference = closest - ball_center;
+
+	return glm::length(difference) < o1.get_radius();
+}
+
+
+void Game::check_collisions() {
+	 for (Game_Object &tile : this->levels[this->current_level].get_bricks()) {
+		 if (!tile.get_destroyed()) {
+			if (check_collision(*ball, tile) && tile.is_solid()) tile.destory_object();
+		 }
+	 }
+}
+
 
 void Game::update(float dt) {
 	ball->move(dt, this->width);
+	this->check_collisions();
 }
 
 
@@ -79,7 +116,7 @@ void Game::process_input(float dt) {
 		// Keyboard movements
 		glm::vec2 pos = player->get_position();
 		glm::vec2 ball_pos = ball->get_position();
-		if (this->keys[GLFW_KEY_A]) {
+		if (this->keys[GLFW_KEY_A]) {  // TODO: this is kinda dumb, probably can be cleaned up.
 			if (pos.x >= 0.0f) {
 				player->set_position(glm::vec2(pos.x - velocity, pos.y));
 

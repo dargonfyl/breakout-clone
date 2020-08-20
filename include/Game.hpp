@@ -9,6 +9,7 @@
 #include "Resource_Manager.hpp"
 #include "Game_Level.hpp"
 #include "Ball_Object.hpp"
+#include "helpers.h"
 
 #define PLAYER_SIZE glm::vec2(100.0f, 20.0f)
 #define PLAYER_VELOCITY 500.0f
@@ -42,6 +43,12 @@ class Game {
 
 
 		Game_Object *player;
+
+
+		/**
+		 * Collision checker for Game::update(). Goes through all bricks and the paddle.
+		 */
+		void check_collisions();
 
 
 	public:

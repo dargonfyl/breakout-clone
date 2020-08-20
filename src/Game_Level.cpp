@@ -108,3 +108,8 @@ void Game_Level::draw(Sprite_Renderer &renderer) {
 		if (!tile.get_destroyed()) tile.draw(renderer);
 	}
 }
+
+
+std::vector<Game_Object> &Game_Level::get_bricks() {
+	return this->bricks;
+}

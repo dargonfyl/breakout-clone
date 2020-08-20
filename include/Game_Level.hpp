@@ -60,7 +60,7 @@ class Game_Level {
 		 * @param level_width  Width of level in pixels
 		 * @param level_height Height of level in pixels
 		 */
-		void load(const char *file, unsigned int level_width, unsigned int level_height);
+		void load(const char *file, unsigned int level_width, unsigned int level_height);  // TODO: why is this public?
 
 
 		/**
@@ -79,4 +79,10 @@ class Game_Level {
 		bool is_completed();
 
 
+		/**
+		 * Gets a reference to the bricks vector. Note that std::vector is usually passed by value, so & passes it by reference.
+		 * 
+		 * @return `std::vector` of `Game_Object`, the bricks
+		 */
+		std::vector<Game_Object> &get_bricks();
 };

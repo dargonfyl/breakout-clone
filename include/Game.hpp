@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <assert.h>
 #include <vector>
+#include <tuple>
 
 #include "Sprite_Renderer.hpp"
 #include "Resource_Manager.hpp"
@@ -20,6 +21,17 @@ enum Gamestate {
 	GAME_MENU,
 	GAME_WIN
 };
+
+
+enum Direction {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+};
+
+
+typedef std::tuple<bool, Direction, glm::vec2> Collision;  // Collided, direction of ball, difference between ball and closest point
 
 
 /**
@@ -49,6 +61,20 @@ class Game {
 		 * Collision checker for Game::update(). Goes through all bricks and the paddle.
 		 */
 		void check_collisions();
+
+
+		/**
+		 * Resets the level to its starting point.
+		 * 
+		 * Tiles are only destroyed during the game, so we set them to un-destroyed.
+		 */
+		void reset_level();
+
+
+		/**
+		 * Puts the player (and the ball) back to its starting postion.
+		 */
+		void reset_player();
 
 
 	public:

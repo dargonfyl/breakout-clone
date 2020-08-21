@@ -66,6 +66,32 @@ void Game::init() {
 	ball = new Ball_Object(ball_position, BALL_RADIUS, INITIAL_BALL_VELOCITY, Resource_Manager::get_texture("face"));
 }
 
+
+Direction vector_direction(glm::vec2 target) {
+	// assert(target.x > 0.0f && target.y > 0.0f && "Game.cpp: vector_direction: Target vector must be nonzero");
+	glm::vec2 compass[] = {
+		glm::vec2(0.0f, 1.0f),	// up
+		glm::vec2(1.0f, 0.0f),	// right
+		glm::vec2(0.0f, -1.0f),	// down
+		glm::vec2(-1.0f, 0.0f)	// left
+    };
+
+	float max = 0.0f;
+	unsigned int best_match = -1; // No best match
+	for (unsigned int i = 0; i < 4; i++) {
+		float dot = glm::dot(glm::normalize(target), compass[i]);
+
+		if (dot > max) {
+			max = dot;
+			best_match = i;
+		}
+	}
+
+	assert(best_match >= 0 && best_match < 4 && "Game.cpp: vector_direction: best_match not a Direction enum");
+	return (Direction)best_match;
+}
+
+
 /**
  * Helper for checking collisions between the ball and tiles.
  * 
@@ -74,7 +100,7 @@ void Game::init() {
  * Given a ball and a tile, we want to find the points on the tile that are closest to the ball. ("clamped")
  * Afterwards, if clamped and the ball's center are less than a radius apart, then we've intersected.
  */
-bool check_collision(Ball_Object &o1, Game_Object &o2) {
+Collision check_collision(Ball_Object &o1, Game_Object &o2) {
 	glm::vec2 ball_center = o1.get_position() + o1.get_radius();
 
 	// AABB for the tile
@@ -90,22 +116,95 @@ bool check_collision(Ball_Object &o1, Game_Object &o2) {
 
 	difference = closest - ball_center;
 
-	return glm::length(difference) < o1.get_radius();
+	// return glm::length(difference) < o1.get_radius();
+	if (glm::length(difference) <= o1.get_radius()) return std::make_tuple(true, vector_direction(difference), difference);
+	else return std::make_tuple(false, UP, glm::vec2(0.0f));
 }
 
 
 void Game::check_collisions() {
-	 for (Game_Object &tile : this->levels[this->current_level].get_bricks()) {
-		 if (!tile.get_destroyed()) {
-			if (check_collision(*ball, tile) && tile.is_solid()) tile.destory_object();
-		 }
-	 }
+	// Check for non-destroyed tiles
+	for (Game_Object &tile : this->levels[this->current_level].get_bricks()) {
+		if (!tile.get_destroyed()) {
+			Collision collision = check_collision(*ball, tile);
+			if (std::get<0>(collision)) {
+				if (tile.is_solid()) tile.destory_object();  // Only for solid objects
+
+				Direction dir = std::get<1>(collision);
+				glm::vec2 diff_vector = std::get<2>(collision);
+
+				if (dir == LEFT || dir == RIGHT) {
+					glm::vec2 ball_velocity = ball->get_velocity();
+					ball->set_velocity(glm::vec2(-ball_velocity.x, ball_velocity.y));
+
+					// Relocate
+					float penetration = ball->get_radius() - std::abs(diff_vector.x);
+					float offset = dir == LEFT ? penetration : -penetration;
+					float new_ball_x = ball->get_position().x + offset;
+					ball->set_position(glm::vec2(new_ball_x, ball->get_position().y));
+				} else if (dir == UP || dir == DOWN) {
+					glm::vec2 ball_velocity = ball->get_velocity();
+					ball->set_velocity(glm::vec2(ball_velocity.x, -ball_velocity.y));
+
+					// Relocate
+					float penetration = ball->get_radius() - std::abs(diff_vector.y);
+					float offset = dir == DOWN ? penetration : -penetration;
+					float new_ball_y = ball->get_position().y + offset;
+					ball->set_position(glm::vec2(ball->get_position().x, new_ball_y));
+				}
+			}
+		}
+	}
+
+	// Check for the paddle (the player)
+	Collision paddle_collide = check_collision(*ball, *player);
+	if (!ball->is_stuck() && std::get<0>(paddle_collide)) {
+		// check where it hit the board, and change velocity based on where it hit the board
+		float paddle_center = player->get_position().x + player->get_size().x / 2.0f;
+		float distance = ball->get_position().x + ball->get_radius() - paddle_center;
+		float percentage = distance / (player->get_size().x / 2.0f);  // Proportionally, how "horizontal" the ball is
+
+		// Move according to how "horizontal" the ball is
+		glm::vec2 old_velocity = ball->get_velocity();
+		float new_velocity_x = INITIAL_BALL_VELOCITY.x * percentage * 2.0f;
+		float new_velocity_y = -abs(ball->get_velocity().y);
+		ball->set_velocity(glm::vec2(new_velocity_x, new_velocity_y));
+
+		ball->set_velocity(glm::normalize(ball->get_velocity()) * glm::length(old_velocity));  // Preserve final speed of the ball
+	}
 }
+
+
+void Game::reset_level() {
+	for (Game_Object &tile : this->levels[this->current_level].get_bricks()) {
+		tile.set_destroyed(false);
+	}
+}
+
+
+void Game::reset_player() {
+	glm::vec2 initial_paddle_position = glm::vec2(
+		this->width / 2.0f - PLAYER_SIZE.x / 2.0f, 
+		this->height - PLAYER_SIZE.y
+    );  // TODO: put this in a #define?
+
+	player->set_position(initial_paddle_position);
+	glm::vec2 initial_ball_position = initial_paddle_position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);
+
+	ball->set_position(initial_ball_position);
+	ball->set_stuck(true);
+}
+
 
 
 void Game::update(float dt) {
 	ball->move(dt, this->width);
 	this->check_collisions();
+
+	if (ball->get_position().y >= this->height) {
+		this->reset_level();
+		this->reset_player();
+	}
 }
 
 

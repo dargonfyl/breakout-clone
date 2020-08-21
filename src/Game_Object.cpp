@@ -124,6 +124,11 @@ void Game_Object::destory_object() {
 }
 
 
+void Game_Object::set_destroyed(bool destroyed) {
+	this->destroyed = destroyed;
+}
+
+
 Texture2D Game_Object::get_sprite() {
 	return this->sprite;
 }

@@ -208,6 +208,15 @@ class Game_Object {
 
 
 		/**
+		 * Sets the destroyed status of this object.
+		 * 
+		 * @param destoryed if destroyed
+		 * 
+		 */
+		void set_destroyed(bool destroyed);
+
+
+		/**
 		 * Gets the sprite associated with this object.
 		 * 
 		 * @return Texture2D: sprite

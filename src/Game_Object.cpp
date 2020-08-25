@@ -33,9 +33,10 @@ Game_Object::Game_Object(glm::vec2 position, glm::vec2 size, Texture2D sprite, g
 }
 
 
-void Game_Object::destroy() {
+void Game_Object::destroy() { }
 
-}
+
+void Game_Object::undestroy() { }
 
 
 void Game_Object::update() { }
@@ -130,8 +131,9 @@ void Game_Object::destory_object() {
 }
 
 
-void Game_Object::set_destroyed(bool destroyed) {
-	this->destroyed = destroyed;
+void Game_Object::undestroy_object() {
+	this->undestroy();
+	this->destroyed = false;
 }
 
 

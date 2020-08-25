@@ -34,9 +34,19 @@ class Game_Object {
 
 
 		/**
-		 * Call this to do any behaviour that needs to happen upon destroy.
+		 * Call this to do any behaviour that needs to happen upon destroying.
+		 * 
+		 * Note that setting `destroyed` will be done by the calling destroy_object()
 		 */
 		virtual void destroy();
+
+
+		/**
+		 * Call this to do any behaviour that needs to happen upon undestroying.
+		 * 
+		 * Note that setting destroyed will be done by the calling undestroy_object()
+		 */
+		virtual void undestroy();
 
 
 	public:
@@ -208,12 +218,9 @@ class Game_Object {
 
 
 		/**
-		 * Sets the destroyed status of this object.
-		 * 
-		 * @param destoryed if destroyed
-		 * 
+		 * Un-destroys the object.
 		 */
-		void set_destroyed(bool destroyed);
+		void undestroy_object();
 
 
 		/**

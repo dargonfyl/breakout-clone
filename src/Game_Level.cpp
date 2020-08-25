@@ -29,7 +29,7 @@ void Game_Level::init(std::vector<std::vector<unsigned int>> tile_data, unsigned
 			if (tile == SOLID_TILE) {
 				Texture2D solid_tex = Resource_Manager::get_texture("solid_tile");
 				glm::vec3 solid_col = glm::vec3(0.8f, 0.8f, 0.7f);
-				Tile brick(pos, size, solid_tex, solid_col);
+				Tile brick = Tile(pos, size, solid_tex, solid_col);
 
 				this->bricks.push_back(brick);
 			} else {
@@ -96,7 +96,7 @@ void Game_Level::load(const char *file, unsigned int level_width, unsigned int l
 
 
 bool Game_Level::is_completed() {
-    for (Game_Object &tile : this->bricks) {
+    for (Tile &tile : this->bricks) {
 		if (!tile.is_solid() && !tile.get_destroyed()) return false;
 	}
     return true;
@@ -104,12 +104,12 @@ bool Game_Level::is_completed() {
 
 
 void Game_Level::draw(Sprite_Renderer &renderer) {
-	for (Game_Object &tile : this->bricks) {
+	for (Tile &tile : this->bricks) {
 		if (!tile.get_destroyed()) tile.draw(renderer);
 	}
 }
 
 
 std::vector<Tile> &Game_Level::get_bricks() {
-	return this->bricks;
+	return this->bricks;  // Automatically returns reference
 }

@@ -9,7 +9,18 @@ class Ball_Object : public Game_Object {
 	private:
 		float radius;  // Ball radius.
 		bool stuck;  // If true, the ball will not move. I.e. is true at the start of a stage.
-	
+
+		/**
+		 * Destroy for the Ball_Object class.
+		 */
+		void destroy();
+
+
+		/**
+		 * Undestroy for the Ball_Object class.
+		 */
+		void undestroy();
+
 
 	public:
 		/**
@@ -25,13 +36,18 @@ class Ball_Object : public Game_Object {
 		 * @param velocity Initial velocity.
 		 * @param sprite   Ball sprite
 		 * 
-		 * @return Ball_Object
+		 * @return `Ball_Object`
 		 */
 		Ball_Object(glm::vec2 pos, float radius, glm::vec2 velocity, Texture2D sprite);
 
 
 		/**
 		 * Moves the ball by a certain amount.
+		 * 
+		 * @param dt           Time difference (delta time).
+		 * @param window_width Width of the window.
+		 * 
+		 * @return The resulting position of the ball, for checking if stuck.
 		 */
 		glm::vec2 move(float dt, unsigned int window_width);
 
@@ -47,7 +63,7 @@ class Ball_Object : public Game_Object {
 		/**
 		 * Returns if stuck
 		 * 
-		 * @return bool
+		 * @return bool If stuck
 		 */
 		bool is_stuck();
 
@@ -55,7 +71,7 @@ class Ball_Object : public Game_Object {
 		/**
 		 * Sets the ball to stuck or not stuck.
 		 * 
-		 * @param stuck
+		 * @param stuck If stuck
 		 */
 		void set_stuck(bool stuck);
 
@@ -63,7 +79,7 @@ class Ball_Object : public Game_Object {
 		/**
 		 * Returns ball radius.
 		 * 
-		 * @return float
+		 * @return float Radius of the ball
 		 */
 		float get_radius();
 };

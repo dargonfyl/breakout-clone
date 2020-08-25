@@ -13,6 +13,12 @@ Ball_Object::Ball_Object(glm::vec2 pos, float radius, glm::vec2 velocity, Textur
 	stuck(true) { }
 
 
+void Ball_Object::destroy() { }
+
+
+void Ball_Object::undestroy() { }
+
+
 glm::vec2 Ball_Object::move(float dt, unsigned int window_width) {
 	if (!this->stuck) {
 		// Move the ball

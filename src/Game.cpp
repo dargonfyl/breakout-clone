@@ -47,7 +47,7 @@ void Game::init() {
 		this->height - PLAYER_SIZE.y
     );
 
-	this->player = new Game_Object(player_position, PLAYER_SIZE, Resource_Manager::get_texture("paddle"));
+	this->player = new Game_Object(player_position, PLAYER_SIZE, Resource_Manager::get_texture("paddle"));  // TODO: create paddle class.
 
 	// Levels
 	Game_Level one("../data/levels/one.lvl", this->width, this->height / 2);
@@ -176,8 +176,8 @@ void Game::check_collisions() {
 
 
 void Game::reset_level() {
-	for (Game_Object &tile : this->levels[this->current_level].get_bricks()) {
-		tile.set_destroyed(false);
+	for (Tile &tile : this->levels[this->current_level].get_bricks()) {
+		tile.undestroy_object();
 	}
 }
 

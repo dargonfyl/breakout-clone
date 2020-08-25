@@ -16,9 +16,15 @@
 class Tile : public Game_Object {
 	private:
 		/**
-		 * Destroy for tiles.
+		 * Destroy for Tile.
 		 */
 		void destroy();
+
+
+		/**
+		 * Undestroy for Tile.
+		 */
+		void undestroy();
 	
 
 	public:

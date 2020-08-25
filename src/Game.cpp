@@ -124,7 +124,7 @@ Collision check_collision(Ball_Object &o1, Game_Object &o2) {
 
 void Game::check_collisions() {
 	// Check for non-destroyed tiles
-	for (Game_Object &tile : this->levels[this->current_level].get_bricks()) {
+	for (Tile &tile : this->levels[this->current_level].get_bricks()) {
 		if (!tile.get_destroyed()) {
 			Collision collision = check_collision(*ball, tile);
 			if (std::get<0>(collision)) {

@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-#include "Game_Object.hpp"
+#include "Tile.hpp"
 #include "Sprite_Renderer.hpp"
 #include "Resource_Manager.hpp"
 
@@ -23,7 +23,7 @@ enum Block_Type {
 
 class Game_Level {
 	private:
-		std::vector<Game_Object> bricks;
+		std::vector<Tile> bricks;
 
 
 		/**
@@ -84,5 +84,5 @@ class Game_Level {
 		 * 
 		 * @return `std::vector` of `Game_Object`, the bricks
 		 */
-		std::vector<Game_Object> &get_bricks();
+		std::vector<Tile> &get_bricks();
 };

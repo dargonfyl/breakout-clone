@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h>  // TODO: put they keymapping in its own header.
 #include <assert.h>
 #include <vector>
 #include <tuple>

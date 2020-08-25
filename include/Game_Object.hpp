@@ -36,7 +36,7 @@ class Game_Object {
 		/**
 		 * Call this to do any behaviour that needs to happen upon destroy.
 		 */
-		void destroy();
+		virtual void destroy();
 
 
 	public:

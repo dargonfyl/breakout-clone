@@ -18,6 +18,8 @@ enum Block_Type {
 	GREEN_TILE = 3,
 	YELLOW_TILE = 4,
 	RED_TILE = 5,
+	PURPLE_TILE = 6,  // Moving tile
+	CYAN_TILE = 7
 };
 
 

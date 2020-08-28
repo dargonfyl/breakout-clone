@@ -5,8 +5,9 @@
 Tile::Tile() { }
 
 
-Tile::Tile(glm::vec2 position, glm::vec2 size, Texture2D sprite, glm::vec3 colour) :
-	Game_Object(position, size, sprite, colour) { }
+Tile::Tile(glm::vec2 position, glm::vec2 size, Texture2D sprite, bool breakable, glm::vec3 colour) :
+	Game_Object(position, size, sprite, colour),
+	breakable(breakable) { }
 
 
 void Tile::destroy() {
@@ -15,3 +16,8 @@ void Tile::destroy() {
 
 
 void Tile::undestroy() { }
+
+
+bool Tile::get_breakable() {
+	return this->breakable;
+}

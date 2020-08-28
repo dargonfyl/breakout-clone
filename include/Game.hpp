@@ -39,7 +39,7 @@ typedef std::tuple<bool, Direction, glm::vec2> Collision;  // Collided, directio
  */
 class Game {
 	private:
-		enum Gamestate state;
+		Gamestate state;
 
 
 		// Tracks whether a key is pressed or not; true for pressed, false for released/unpressed

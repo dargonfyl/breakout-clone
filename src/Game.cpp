@@ -128,7 +128,7 @@ void Game::check_collisions() {
 		if (!tile.get_destroyed()) {
 			Collision collision = check_collision(*ball, tile);
 			if (std::get<0>(collision)) {
-				if (tile.is_solid()) tile.destory_object();  // Only for solid objects
+				if (tile.get_breakable()) tile.destory_object();  // Only for solid objects
 
 				Direction dir = std::get<1>(collision);
 				glm::vec2 diff_vector = std::get<2>(collision);

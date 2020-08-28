@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include <sstream>
+#include <fstream>
 
 #include "Tile.hpp"
 #include "Sprite_Renderer.hpp"

@@ -11,6 +11,8 @@
 #include "Game_Level.hpp"
 #include "Ball_Object.hpp"
 #include "helpers.h"
+#include "Particle_Emitter.hpp"
+
 
 #define PLAYER_SIZE glm::vec2(100.0f, 20.0f)
 #define PLAYER_VELOCITY 500.0f

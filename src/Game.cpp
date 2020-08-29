@@ -19,6 +19,7 @@ Sprite_Renderer *renderer;
 const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 const float BALL_RADIUS = 12.5f;
 Ball_Object *ball; 
+Particle_Emitter *emitter;
 
 
 void Game::init() {
@@ -64,6 +65,12 @@ void Game::init() {
 	// Ball stuff
 	glm::vec2 ball_position = player_position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);
 	ball = new Ball_Object(ball_position, BALL_RADIUS, INITIAL_BALL_VELOCITY, Resource_Manager::get_texture("face"));
+
+	// Particle emitter
+	Resource_Manager::load_shader("../shaders/particle.vs", "../shaders/particle.fs", nullptr, "particle");
+	Resource_Manager::load_texture("../data/particle.png", true, "particle"); 
+	Resource_Manager::get_shader("particle").use().set_mat4("projection", projection);
+	emitter = new Particle_Emitter(Resource_Manager::get_shader("particle"), Resource_Manager::get_texture("particle"), 100);
 }
 
 
@@ -205,6 +212,8 @@ void Game::update(float dt) {
 		this->reset_level();
 		this->reset_player();
 	}
+
+	emitter->update(dt, *ball, 10, glm::vec2(ball->get_radius() / 2.0f));
 }
 
 
@@ -247,8 +256,9 @@ void Game::render() {
 
 		this->levels[current_level].draw(*renderer);
 		this->player->draw(*renderer);
-
+		if (!ball->is_stuck()) emitter->draw();  // TODO: only draw if the ball is moving. No particles when paddle is idle!
 		ball->draw(*renderer);
+		
 	}
 }
 

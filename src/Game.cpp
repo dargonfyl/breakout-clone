@@ -147,9 +147,9 @@ void Game::check_collisions() {
 
 				Direction dir = std::get<1>(collision);
 				glm::vec2 diff_vector = std::get<2>(collision);
+				glm::vec2 ball_velocity = ball->get_velocity();
 
 				if (dir == LEFT || dir == RIGHT) {
-					glm::vec2 ball_velocity = ball->get_velocity();
 					ball->set_velocity(glm::vec2(-ball_velocity.x, ball_velocity.y));
 
 					// Relocate
@@ -158,7 +158,6 @@ void Game::check_collisions() {
 					float new_ball_x = ball->get_position().x + offset;
 					ball->set_position(glm::vec2(new_ball_x, ball->get_position().y));
 				} else if (dir == UP || dir == DOWN) {
-					glm::vec2 ball_velocity = ball->get_velocity();
 					ball->set_velocity(glm::vec2(ball_velocity.x, -ball_velocity.y));
 
 					// Relocate
@@ -227,25 +226,24 @@ void Game::update(float dt) {
 
 void Game::process_input(float dt) {
 	if (this->state == GAME_ACTIVE) {
-		float velocity = dt * PLAYER_VELOCITY;  // TODO: this is a retarded way of doing this. Make it a vec2, ffs.
+		if (this->keys[GLFW_KEY_A] != this->keys[GLFW_KEY_D]) {  // One or the other
+			// NOTE: i tried this out a bunch, and I don't see any race conditions, so I'm leaving it like this.
 
-		// Keyboard movements
-		glm::vec2 pos = player->get_position();
-		glm::vec2 ball_pos = ball->get_position();
-		if (this->keys[GLFW_KEY_A]) {  // TODO: this is kinda dumb, probably can be cleaned up.
-			if (pos.x >= 0.0f) {
-				player->set_position(glm::vec2(pos.x - velocity, pos.y));
+			float velocity = dt * PLAYER_VELOCITY;
 
+			// Keyboard movements
+			glm::vec2 pos = player->get_position();
+			glm::vec2 ball_pos = ball->get_position();
+
+			float right_difference = this->width - player->get_size().x - pos.x;
+			float left_difference = pos.x;
+
+			if (right_difference >= 0.0f && left_difference >= 0.0f) {
+				// Ensure the positions aren't going to be out of bounds
+				float displacement = this->keys[GLFW_KEY_A] ? fmaxf(-velocity, -left_difference) : fminf(velocity, right_difference);
+				player->set_position(glm::vec2(pos.x + displacement, pos.y));
 				if (ball->is_stuck()) {
-					ball->set_position(glm::vec2(ball_pos.x - velocity, ball_pos.y));
-				}
-			}
-		} else if (this->keys[GLFW_KEY_D]) {
-			if (pos.x <= this->width - player->get_size().x) {
-				player->set_position(glm::vec2(pos.x + velocity, pos.y));
-
-				if (ball->is_stuck()) {
-					ball->set_position(glm::vec2(ball_pos.x + velocity, ball_pos.y));
+					ball->set_position(glm::vec2(ball_pos.x + displacement, ball_pos.y));
 				}
 			}
 		}
@@ -264,7 +262,7 @@ void Game::render() {
 
 		this->levels[current_level].draw(*renderer);
 		this->player->draw(*renderer);
-		if (!ball->is_stuck()) emitter->draw();  // TODO: only draw if the ball is moving. No particles when paddle is idle!
+		if (!ball->is_stuck()) emitter->draw();
 		ball->draw(*renderer);
 		
 	}

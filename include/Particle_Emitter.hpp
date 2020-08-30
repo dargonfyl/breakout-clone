@@ -22,7 +22,7 @@ class Particle_Emitter {
 				glm::vec2 position, velocity;
 				glm::vec4 color;
 
-				float life;  // If the life <= 0.0, then this particle is dead: don't draw it! Otherwise, draw it with intensity prop. to life.
+				float life;  // If the life <= 0.0, then this particle is dead: don't draw it! Otherwise, draw it with intensity proportional to life.
 
 				/**
 				 * Default Particle constructor. All we need.

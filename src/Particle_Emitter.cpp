@@ -95,7 +95,7 @@ void Particle_Emitter::update(float dt, Game_Object &object, unsigned int num_ne
 	for (unsigned int i = 0; i < this->num_particles; i++) {
 		Particle_Emitter::Particle &p = this->particles[i];
 		p.life -= dt;
-		
+
 		if (p.life > 0.0f) {
 			p.position -= p.velocity * dt;
 			p.color.a -= dt * 2.5f;
@@ -117,6 +117,6 @@ void Particle_Emitter::draw() {
 			glBindVertexArray(0);
 		}
 	}
-	std::cout << particles.size() << std::endl;
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  // reset blend to default
 }

@@ -74,8 +74,15 @@ void Game::init() {
 }
 
 
-Direction vector_direction(glm::vec2 target) {
-	// assert(target.x > 0.0f && target.y > 0.0f && "Game.cpp: vector_direction: Target vector must be nonzero");
+/**
+ * Helper to find best direction to flip for a collision - goes through the 4 cardinal directions to see which one the incoming vector is closest to. If there is no best direction, then the best one will be the up direction.
+ * 
+ * @param incoming glm::vec2 direction of the incoming object's velocity.
+ * 
+ * @return Direction enum of which direction the incoming object best matches.
+ */
+Direction vector_direction(glm::vec2 incoming) {
+	// assert(incoming.x > 0.0f && incoming.y > 0.0f && "Game.cpp: vector_direction: incoming vector must be nonzero");
 	glm::vec2 compass[] = {
 		glm::vec2(0.0f, 1.0f),	// up
 		glm::vec2(1.0f, 0.0f),	// right
@@ -84,9 +91,10 @@ Direction vector_direction(glm::vec2 target) {
     };
 
 	float max = 0.0f;
-	unsigned int best_match = -1; // No best match
+	// HACK: this is not the best way of doing this, but it at least prevents a crash when the ball is in the paddle.
+	unsigned int best_match = 0; // up by default. Probably a dumb idea!
 	for (unsigned int i = 0; i < 4; i++) {
-		float dot = glm::dot(glm::normalize(target), compass[i]);
+		float dot = glm::dot(glm::normalize(incoming), compass[i]);
 
 		if (dot > max) {
 			max = dot;
@@ -193,7 +201,7 @@ void Game::reset_player() {
 	glm::vec2 initial_paddle_position = glm::vec2(
 		this->width / 2.0f - PLAYER_SIZE.x / 2.0f, 
 		this->height - PLAYER_SIZE.y
-    );  // TODO: put this in a #define?
+    );
 
 	player->set_position(initial_paddle_position);
 	glm::vec2 initial_ball_position = initial_paddle_position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);

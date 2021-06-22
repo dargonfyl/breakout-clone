@@ -7,6 +7,7 @@
 #include <tuple>
 
 #include "Sprite_Renderer.hpp"
+#include "Postprocessor.hpp"
 #include "Resource_Manager.hpp"
 #include "Game_Level.hpp"
 #include "Ball_Object.hpp"

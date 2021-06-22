@@ -15,6 +15,7 @@ Game::~Game() { }
 
 
 Sprite_Renderer *renderer;
+Postprocessor *postprocessor;
 
 const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
 const float BALL_RADIUS = 12.5f;
@@ -24,15 +25,20 @@ Particle_Emitter *emitter;
 
 void Game::init() {
 	// Load shaders
+
 	Resource_Manager::load_shader("../shaders/quad.vs", "../shaders/quad.fs", nullptr, "quad");
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->width), static_cast<float>(this->height), 0.0f, -1.0f, 1.0f);
 
-	Shader quad_shader = Resource_Manager::get_shader("quad");
+	Shader &quad_shader = Resource_Manager::get_shader("quad");
 	quad_shader.use().set_int("image", 0);
 	quad_shader.use();
 	quad_shader.set_mat4("projection", projection);
 
 	renderer = new Sprite_Renderer(quad_shader);
+
+	Resource_Manager::load_shader("../shaders/postprocess.vs", "../shaders/postprocess.fs", nullptr, "postprocessor");
+	Shader &postprocessor_shader = Resource_Manager::get_shader("postprocessor");
+	postprocessor = new Postprocessor(postprocessor_shader, this->width, this->height);
 
 	Resource_Manager::load_texture("../data/block_tile.png", false, "block_tile");
 	Resource_Manager::load_texture("../data/solid_tile.png", false, "solid_tile");
@@ -136,6 +142,7 @@ Collision check_collision(Ball_Object &o1, Game_Object &o2) {
 	else return std::make_tuple(false, UP, glm::vec2(0.0f));
 }
 
+float shake_time = 0.0f;
 
 void Game::check_collisions() {
 	// Check for non-destroyed tiles
@@ -143,7 +150,12 @@ void Game::check_collisions() {
 		if (!tile.get_destroyed()) {
 			Collision collision = check_collision(*ball, tile);
 			if (std::get<0>(collision)) {
-				if (tile.get_breakable()) tile.destory_object();  // Only for solid objects
+				if (tile.get_breakable()) {
+					tile.destory_object();  // Only for solid objects
+				} else {
+					shake_time = 0.05f;
+					postprocessor->shake = true;
+				}
 
 				Direction dir = std::get<1>(collision);
 				glm::vec2 diff_vector = std::get<2>(collision);
@@ -220,6 +232,13 @@ void Game::update(float dt) {
 		this->reset_player();
 	}
 
+	if (shake_time > 0.0f) {
+		shake_time -= dt;
+		if (shake_time <= 0.0f) {
+			postprocessor->shake = false;
+		}
+	}
+
 	emitter->update(dt, *ball, 10, glm::vec2(ball->get_radius() / 2.0f));
 }
 
@@ -257,7 +276,9 @@ void Game::process_input(float dt) {
 
 void Game::render() {
 	if(this->state == GAME_ACTIVE) {
-		Texture2D bg_tex = Resource_Manager::get_texture("background");
+		postprocessor->begin_render();
+
+		Texture2D &bg_tex = Resource_Manager::get_texture("background");
 		renderer->draw_sprite(bg_tex, glm::vec2(0.0f), glm::vec2(this->width, this->height), 0.0f);
 
 		this->levels[current_level].draw(*renderer);
@@ -265,6 +286,8 @@ void Game::render() {
 		if (!ball->is_stuck()) emitter->draw();
 		ball->draw(*renderer);
 		
+		postprocessor->end_render();
+		postprocessor->render(static_cast<float>(glfwGetTime()));
 	}
 }
 

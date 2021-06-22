@@ -18,7 +18,6 @@ Texture2D::Texture2D() {
 
 
 void Texture2D::generate(unsigned int width, unsigned int height, unsigned char *data) {
-	assert(data && "data is empty in Texture2D::generate");
 	assert(width > 0 && "width is 0 in Texture2D::generate");
 	assert(height > 0 && "height is 0 in Texture2D::generate");
 	this->width = width;

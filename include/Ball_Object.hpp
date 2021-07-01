@@ -9,6 +9,8 @@ class Ball_Object : public Game_Object {
 	private:
 		float radius;  // Ball radius.
 		bool stuck;  // If true, the ball will not move. I.e. is true at the start of a stage.
+		bool sticky;
+		bool pass_through;
 
 		/**
 		 * Destroy for the Ball_Object class.
@@ -82,4 +84,16 @@ class Ball_Object : public Game_Object {
 		 * @return float Radius of the ball
 		 */
 		float get_radius();
+
+
+		bool get_sticky();
+
+
+		void set_sticky(bool sticky);
+
+
+		void set_pass_through(bool pass_through);
+
+
+		bool get_pass_through();
 };

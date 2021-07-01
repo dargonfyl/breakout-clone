@@ -4,13 +4,17 @@
 Ball_Object::Ball_Object() :
 	Game_Object(),
 	radius(12.5),
-	stuck(true) { }
+	stuck(true),
+	sticky(false),
+	pass_through(false) { }
 
 
 Ball_Object::Ball_Object(glm::vec2 pos, float radius, glm::vec2 velocity, Texture2D sprite) :
 	Game_Object(pos, glm::vec2(radius * 2.0f), sprite, glm::vec3(1.0), velocity),
 	radius(radius),
-	stuck(true) { }
+	stuck(true),
+	sticky(false),
+	pass_through(false) { }
 
 
 void Ball_Object::destroy() { }
@@ -68,4 +72,24 @@ void Ball_Object::set_stuck(bool stuck) {
 
 float Ball_Object::get_radius() {
 	return this->radius;
+}
+
+
+bool Ball_Object::get_sticky() {
+	return this->sticky;
+}
+
+
+void Ball_Object::set_sticky(bool sticky) {
+	this->sticky = sticky;
+}
+
+
+bool Ball_Object::get_pass_through() {
+	return this->pass_through;
+}
+
+
+void Ball_Object::set_pass_through(bool pass_through) {
+	this->pass_through = pass_through;
 }

@@ -13,6 +13,7 @@
 #include "Ball_Object.hpp"
 #include "helpers.h"
 #include "Particle_Emitter.hpp"
+#include "Power_Up.hpp"
 
 
 #define PLAYER_SIZE glm::vec2(100.0f, 20.0f)
@@ -60,10 +61,16 @@ class Game {
 		Game_Object *player;
 
 
+		std::vector<Power_Up> power_ups;
+
+
 		/**
 		 * Collision checker for Game::update(). Goes through all bricks and the paddle.
 		 */
 		void check_collisions();
+
+
+		void activate_power_up(Power_Up &power_up);
 
 
 		/**
@@ -80,6 +87,10 @@ class Game {
 		void reset_player();
 
 
+		void spawn_power_up(Game_Object &block);
+
+
+		void update_power_ups(float dt);
 	public:
 		/**
 		 * Constructor for Game class. Note that there should only be 1 of these.
